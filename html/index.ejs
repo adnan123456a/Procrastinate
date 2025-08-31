@@ -3,98 +3,232 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Procastination</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/babel-standalone@6.26.0/babel.min.js"></script>
+  <title>Futuristic Study Planner</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom animations */
+    @keyframes slideIn {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes scaleHover {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+    .animate-slideIn {
+      animation: slideIn 0.7s ease-out forwards;
+    }
+    .hover\:scale-up {
+      transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+    }
+    .hover\:scale-up:hover {
+      transform: scale(1.05);
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    body {
+      background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    }
+    .container-main {
+      background: rgba(20, 20, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    }
+    .section-container {
+      background: rgba(10, 10, 10, 0.9);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    .custom-border {
+      border-image: linear-gradient(to right, #ef4444, #1a1a1a) 1;
+    }
+    .task-card {
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .task-card:hover {
+      background: rgba(239, 68, 68, 0.1);
+      transform: translateX(5px);
+    }
+    .btn-done {
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .btn-done:hover {
+      transform: scale(1.1);
+    }
+    .btn-done.done {
+      background: #4b5563;
+      cursor: not-allowed;
+    }
+    header, footer {
+      background: rgba(10, 10, 10, 0.95);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    /* Custom scrollbar */
+    .section-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    .section-container::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+    .section-container::-webkit-scrollbar-thumb {
+      background: #ef4444;
+      border-radius: 4px;
+    }
+    .section-container::-webkit-scrollbar-thumb:hover {
+      background: #f87171;
+    }
+  </style>
 </head>
-<body class="bg-black text-white font-sans">
-  <div id="root"></div>
-  <script type="text/babel">
-    const MoviePlayer = () => {
-      const [isWatched, setIsWatched] = React.useState(false);
+<body class="min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="py-4 px-6 container-main mx-auto animate-slideIn">
+    <h1 class="text-3xl font-extrabold text-red-500 text-center tracking-widest">NEON STUDY PLANNER</h1>
+    <nav class="mt-2 text-center">
+      <a href="login.html" class="text-red-400 hover:text-red-300 transition mx-2">Login</a>
+      <a href="register.html" class="text-red-400 hover:text-red-300 transition mx-2">Register</a>
+      <a href="video.html" class="text-red-400 hover:text-red-300 transition mx-2">Video Hub</a>
+    </nav>
+  </header>
 
-      const handleMarkWatched = () => {
-        setIsWatched(!isWatched);
-      };
-
-      return (
-        <div className="min-h-screen bg-black p-4 md:p-8">
-          {/* Header */}
-          <header className="flex justify-between items-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-red-600">Procastination</h1>
-            <nav>
-              <a href="#" className="text-red-500 hover:text-red-400 mx-2">Home</a>
-            
-              <a href="#" className="text-red-500 hover:text-red-400 mx-2">Login</a>
-            </nav>
-          </header>
-
-          {/* Main Player Section */}
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* Video Player */}
-            <div className="lg:w-3/4">
-              <div className="relative aspect-video bg-gray-900 rounded-lg overflow-hidden shadow-lg">
-                <iframe
-                  className="w-full h-full"
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1"
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-
-              {/* Video Info */}
-              <div className="mt-4">
-                <h2 className="text-2xl font-bold text-white">Sample Movie Title</h2>
-                <p className="text-gray-400 mt-2">
-                  A thrilling adventure awaits in this action-packed movie. Join our hero as they navigate a world of danger and excitement!
-                </p>
-                <div className="mt-4 flex items-center gap-4">
-                  <button
-                    onClick={handleMarkWatched}
-                    className={`px-4 py-2 rounded-full font-semibold transition ${
-                      isWatched ? 'bg-green-600 text-white' : 'bg-red-600 text-white hover:bg-red-500'
-                    }`}
-                  >
-                    {isWatched ? 'Watched ✓' : 'Mark as Watched'}
-                  </button>
-                  <span className="text-gray-400">2023 • Action • 2h 15m</span>
-                </div>
-              </div>
+  <!-- Main Content -->
+  <div class="flex-grow container mx-auto px-4 py-8">
+    <div class="max-w-6xl mx-auto container-main rounded-2xl p-8 animate-slideIn delay-100">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Personal Tasks Section -->
+        <div class="section-container rounded-xl p-6 animate-slideIn delay-200">
+          <h3 class="text-2xl font-bold text-red-500 mb-6 tracking-wide">Personal Tasks</h3>
+          <div class="space-y-4">
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Complete Math Assignment</h4>
+              <p class="text-sm text-gray-300 mt-1">Finish calculus problems for Chapter 5.</p>
+              <p class="text-xs text-gray-400 mt-1">Due: Sep 2, 2025 | Priority: High</p>
+              <button
+                onclick="markAsDone(this)"
+                class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md hover:bg-gray-700 hover:scale-up"
+              >
+                Mark as Done
+              </button>
             </div>
-
-            {/* Next Episodes Sidebar */}
-            <div className="lg:w-1/4">
-              <h3 className="text-xl font-bold text-red-600 mb-4">Next Episodes</h3>
-              <div className="space-y-4">
-                {['Episode 2: The Chase', 'Episode 3: Hidden Truths', 'Episode 4: Final Stand'].map((episode, index) => (
-                  <div key={index} className="bg-gray-900 rounded-lg p-4 hover:bg-gray-800 transition cursor-pointer">
-                    <img
-                      src="https://via.placeholder.com/150x85"
-                      alt={episode}
-                      className="w-full h-20 object-cover rounded mb-2"
-                    />
-                    <h4 className="text-white font-semibold">{episode}</h4>
-                    <p className="text-gray-400 text-sm">23m • Available Now</p>
-                  </div>
-                ))}
-              </div>
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Read Physics Chapter</h4>
+              <p class="text-sm text-gray-300 mt-1">Study thermodynamics for upcoming quiz.</p>
+              <p class="text-xs text-gray-400 mt-1">Due: Sep 3, 2025 | Priority: Medium</p>
+              <button
+                onclick="markAsDone(this)"
+                class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md hover:bg-gray-700 hover:scale-up"
+              >
+                Mark as Done
+              </button>
+            </div>
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Write Essay Draft</h4>
+              <p class="text-sm text-gray-300 mt-1">Draft introduction for literature essay.</p>
+              <p class="text-xs text-gray-400 mt-1">Due: Sep 4, 2025 | Priority: Low</p>
+              <button
+                onclick="markAsDone(this)"
+                class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md hover:bg-gray-700 hover:scale-up"
+              >
+                Mark as Done
+              </button>
             </div>
           </div>
-
-          {/* Footer */}
-          <footer className="mt-12 text-center text-gray-400">
-            <p>© 2025 AdnanDLuffy. All rights reserved.</p>
-          </footer>
         </div>
-      );
-    };
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<MoviePlayer />);
+        <!-- Public Tasks Section -->
+        <div class="section-container rounded-xl p-6 animate-slideIn delay-300">
+          <h3 class="text-2xl font-bold text-red-500 mb-6 tracking-wide">Public Tasks</h3>
+          <div class="space-y-4">
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Group Project Meeting</h4>
+              <p class="text-sm text-gray-300 mt-1">Discuss project timeline with team.</p>
+              <p class="text-xs text-gray-400 mt-1">Date: Sep 1, 2025 | Location: Virtual</p>
+              <button
+                onclick="markAsDone(this)"
+                class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md hover:bg-gray-700 hover:scale-up"
+              >
+                Mark as Done
+              </button>
+            </div>
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Study Group Session</h4>
+              <p class="text-sm text-gray-300 mt-1">Review chemistry notes with peers.</p>
+              <p class="text-xs text-gray-400 mt-1">Date: Sep 2, 2025 | Location: Library</p>
+              <button
+                onclick="markAsDone(this)"
+                class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md hover:bg-gray-700 hover:scale-up"
+              >
+                Mark as Done
+              </button>
+            </div>
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Club Presentation</h4>
+              <p class="text-sm text-gray-300 mt-1">Prepare slides for science club talk.</p>
+              <p class="text-xs text-gray-400 mt-1">Date: Sep 5, 2025 | Location: Auditorium</p>
+              <button
+                onclick="markAsDone(this)"
+                class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md hover:bg-gray-700 hover:scale-up"
+              >
+                Mark as Done
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="section-container rounded-xl p-6 animate-slideIn delay-400">
+          <h3 class="text-2xl font-bold text-red-500 mb-6 tracking-wide">History</h3>
+          <div class="space-y-4">
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Submitted Biology Report</h4>
+              <p class="text-sm text-gray-300 mt-1">Completed report on cell division.</p>
+              <p class="text-xs text-gray-400 mt-1">Completed: Aug 28, 2025</p>
+              <button class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md done" disabled>
+                Done
+              </button>
+            </div>
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Math Quiz</h4>
+              <p class="text-sm text-gray-300 mt-1">Took quiz on algebraic functions.</p>
+              <p class="text-xs text-gray-400 mt-1">Completed: Aug 29, 2025</p>
+              <button class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md done" disabled>
+                Done
+              </button>
+            </div>
+            <div class="task-card p-4 border border-gray-800 rounded-md">
+              <h4 class="text-lg font-semibold text-red-400">Literature Discussion</h4>
+              <p class="text-sm text-gray-300 mt-1">Participated in book club meeting.</p>
+              <p class="text-xs text-gray-400 mt-1">Completed: Aug 30, 2025</p>
+              <button class="btn-done mt-3 px-3 py-1 bg-gray-600 text-white rounded-md done" disabled>
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="py-4 px-6 container-main mx-auto text-center text-sm text-gray-300 animate-slideIn delay-200">
+    <p>&copy; 2025 Neon Study Hub. All rights reserved.</p>
+    <p class="mt-1">
+      <a href="#" class="text-red-400 hover:text-red-300 transition mx-2">Privacy Policy</a>
+      <a href="#" class="text-red-400 hover:text-red-300 transition mx-2">Terms of Service</a>
+    </p>
+  </footer>
+
+  <script>
+    function markAsDone(button) {
+      if (!button.classList.contains('done')) {
+        button.textContent = 'Done';
+        button.classList.add('done');
+        button.disabled = true;
+      }
+    }
   </script>
 </body>
 </html>
