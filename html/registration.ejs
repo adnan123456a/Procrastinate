@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Futuristic Registration Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom animations */
+    @keyframes slideIn {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes scaleHover {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+    @keyframes dialogFadeIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .animate-slideIn {
+      animation: slideIn 0.7s ease-out forwards;
+    }
+    .hover\:scale-up {
+      transition: transform 0.3s ease;
+    }
+    .hover\:scale-up:hover {
+      transform: scale(1.05);
+    }
+    .animate-dialogFadeIn {
+      animation: dialogFadeIn 0.3s ease-out forwards;
+    }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    body {
+      background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+    }
+    .form-container {
+      background: rgba(20, 20, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    }
+    input:focus {
+      box-shadow: none;
+    }
+    .custom-border {
+      border-image: linear-gradient(to right, #ef4444, #1a1a1a) 1;
+    }
+    .password-container {
+      position: relative;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #ef4444;
+      transition: color 0.3s ease;
+    }
+    .toggle-password:hover {
+      color: #f87171;
+    }
+    .dialog {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .dialog-content {
+      background: rgba(20, 20, 20, 0.9);
+      border: 1px solid #ef4444;
+      border-radius: 12px;
+      padding: 1.5rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+    .dialog-success .dialog-content {
+      border-color: #ef4444;
+    }
+    .dialog-error .dialog-content {
+      border-color: #f87171;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center">
+  <div class="container mx-auto px-4">
+    <div class="max-w-md mx-auto form-container rounded-2xl p-8 animate-slideIn">
+      <h2 class="text-4xl font-extrabold text-red-500 text-center mb-6 animate-slideIn delay-100 tracking-widest">CREATE ACCOUNT</h2>
+      <div class="space-y-6">
+        <div class="animate-slideIn delay-200">
+          <label for="username" class="block text-sm font-medium text-gray-200">User ID</label>
+          <input
+            type="text"
+            id="username"
+            class="mt-1 block w-full px-3 py-2 bg-gray-900 border custom-border rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition duration-300"
+            placeholder="Choose User ID"
+          >
+        </div>
+        <div class="animate-slideIn delay-300">
+          <label for="email" class="block text-sm font-medium text-gray-200">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="mt-1 block w-full px-3 py-2 bg-gray-900 border custom-border rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition duration-300"
+            placeholder="Enter Email"
+          >
+        </div>
+        <div class="animate-slideIn delay-400">
+          <label for="password" class="block text-sm font-medium text-gray-200">Access Code</label>
+          <div class="password-container">
+            <input
+              type="password"
+              id="password"
+              class="mt-1 block w-full px-3 py-2 bg-gray-900 border custom-border rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-transparent transition duration-300"
+              placeholder="Create Access Code"
+            >
+            <svg
+              class="toggle-password"
+              onclick="togglePassword()"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </div>
+        </div>
+        <button
+          class="w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition hover:scale-up"
+          onclick="handleRegister()"
+        >
+          Register Now
+        </button>
+      </div>
+      <p class="mt-4 text-center text-sm text-gray-300">
+        Already Registered? <a href="login" class="text-red-400 hover:text-red-300 transition">Login</a>
+      </p>
+    </div>
+  </div>
+  <div id="dialog" class="dialog">
+    <div class="dialog-content animate-dialogFadeIn">
+      <h3 id="dialog-title" class="text-lg font-bold text-red-500 mb-2"></h3>
+      <p id="dialog-message" class="text-gray-300 mb-4"></p>
+      <button
+        onclick="closeDialog()"
+        class="py-1 px-4 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.querySelector('.toggle-password');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11- 8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+          <line x1="1" y1="1" x2="23" y2="23"></line>
+        `;
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.innerHTML = `
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        `;
+      }
+    }
+
+    function showDialog(title, message, type) {
+      const dialog = document.getElementById('dialog');
+      const dialogTitle = document.getElementById('dialog-title');
+      const dialogMessage = document.getElementById('dialog-message');
+      dialogTitle.textContent = title;
+      dialogMessage.textContent = message;
+      dialog.classList.remove('dialog-success', 'dialog-error');
+      dialog.classList.add(`dialog-${type}`);
+      dialog.style.display = 'flex';
+    }
+
+    function closeDialog() {
+      const dialog = document.getElementById('dialog');
+      dialog.style.display = 'none';
+    }
+
+    function handleRegister() {
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      if (username && email && password) {
+        showDialog('Access Granted', 'Registration Successful! (Demo Mode)', 'success');
+      } else {
+        showDialog('Access Denied', 'Please fill in all fields', 'error');
+      }
+    }
+  </script>
+</body>
+</html>
